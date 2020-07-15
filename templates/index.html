@@ -508,38 +508,56 @@
 
                     <!-- Request Form -->
                     <div class="form-container">
-                        <form id="requestForm" data-toggle="validator" data-focus="false">
+                        <form data-focus="false" method='POST' action=''>
+
+                            {{ request_form.csrf_token }}
+
                             <div class="form-group">
-                                <input type="text" class="form-control-input" id="rname" name="rname" required>
-                                <label class="label-control" for="rname">Full name</label>
+                                
+                                {{ request_form.name(class='form-control-input', id='rname') }}
+                                {{ request_form.name.label(class='label-control', for='rname') }}
+                                
                                 <div class="help-block with-errors"></div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                {{ request_form.email(class='form-control-input', id='remail') }}
+                                {{ request_form.email.label(class='label-control', for='remail') }}
+
+                                <div class="help-block with-errors"></div>
+
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control-input" id="remail" name="remail" required>
-                                <label class="label-control" for="remail">Email</label>
+
+                                {{ request_form.phone(class='form-control-input', id='rphone') }}
+                                {{ request_form.phone.label(class='label-control', for='rphone') }}
+
                                 <div class="help-block with-errors"></div>
+
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control-input" id="rphone" name="rphone" required>
-                                <label class="label-control" for="rphone">Phone</label>
+
+                                {{ request_form.select(class='form-control-select', id='rselect') }}
+                            
                                 <div class="help-block with-errors"></div>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control-select" id="rselect" required>
-                                    <option class="select-option" value="" disabled selected>Interested in...</option>
-                                    <option class="select-option" value="Personal Loan">Starter</option>
-                                    <option class="select-option" value="Car Loan">Medium</option>
-                                    <option class="select-option" value="House Loan">Complete</option>
-                                </select>
-                                <div class="help-block with-errors"></div>
+
                             </div>
                             <div class="form-group checkbox">
-                                <input type="checkbox" id="rterms" value="Agreed-to-Terms" name="rterms" required>I agree with Evolo's stated <a href="{{ url_for('privacy') }}">Privacy Policy</a> and <a href="{{ url_for('terms') }}">Terms & Conditions</a>
+
+                                {{ request_form.agree(id='rterms')}}
+                                I agree with Evolo's stated <a href="{{ url_for('privacy') }}">Privacy Policy</a> and <a href="{{ url_for('terms') }}">Terms & Conditions</a>
+
                                 <div class="help-block with-errors"></div>
+
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="form-control-submit-button">REQUEST</button>
+
+                                {{ request_form.submit(class='form-control-submit-button')}}
+
                             </div>
+                            
                             <div class="form-message">
                                 <div id="rmsgSubmit" class="h3 text-center hidden"></div>
                             </div>
@@ -578,7 +596,7 @@
                     </div> <!-- end of image-container -->
                     <!-- end of video preview -->
 
-                    <p>This video will show you the importance of <strong>healthcare startups</strong> in this competitive market and why cohesive teams are a core part of their success.</p>
+                    <p>This video will show you the importance of <strong>healthcare startups</strong> in this competitive market and why <strong>cohesive teams</strong> are a core part of their success.</p>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
         </div> <!-- end of container -->
@@ -749,29 +767,68 @@
                 <div class="col-lg-6">
                     
                     <!-- Contact Form -->
-                    <form id="contactForm" data-toggle="validator" data-focus="false">
+                    <form method='POST' action="">
+
+                        {{ form.csrf_token }}
+
                         <div class="form-group">
-                            <input type="text" class="form-control-input" id="cname" required>
-                            <label class="label-control" for="cname">Name</label>
-                            <div class="help-block with-errors"></div>
+
+                            {{ form.name(class='form-control-input', id='cname') }}
+                            {{ form.name.label(class='label-control', for='cname')}}
+                    
+                            <div class="help-block with-errors">
+                                {% if form.name.errors %}
+                                    {% for error in form.name.errors %}
+                                        <p class='alert alert-danger'>{{error}}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
                         </div>
+
                         <div class="form-group">
-                            <input type="email" class="form-control-input" id="cemail" required>
-                            <label class="label-control" for="cemail">Email</label>
-                            <div class="help-block with-errors"></div>
+
+                            {{ form.email(class='form-control-input', id='cemail') }}
+                            {{ form.email.label(class='label-control', for='cemail') }}
+                           
+                            <div class="help-block with-errors">
+                                {% if form.email.errors %}
+                                    {% for error in form.email.errors %}
+                                        <p class='alert alert-danger'>{{error}}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
                         </div>
+
                         <div class="form-group">
-                            <textarea class="form-control-textarea" id="cmessage" required></textarea>
-                            <label class="label-control" for="cmessage">Your message</label>
-                            <div class="help-block with-errors"></div>
+                           
+                            {{ form.body(class='form-control-textarea', id='cmessage') }}
+                            {{ form.body.label(class='label-control', for='cmessage') }}
+        
+                            <div class="help-block with-errors">
+                                {% if form.body.errors %}
+                                    {% for error in form.body.errors %}
+                                        <p class='alert alert-danger'>{{error}}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                         </div>
+
                         <div class="form-group checkbox">
-                            <input type="checkbox" id="cterms" value="Agreed-to-Terms" required>I have read and agree with Evolo's stated <a href="{{ url_for('privacy') }}">Privacy Policy</a> and <a href="{{ url_for('terms') }}">Terms Conditions</a> 
+
+                            {{ form.agree(id='cterms')}}
+                            I have read and agree with Evolo's stated <a href="{{ url_for('privacy') }}">Privacy Policy</a> and <a href="{{ url_for('terms') }}">Terms Conditions</a> 
+                            
                             <div class="help-block with-errors"></div>
                         </div>
+
                         <div class="form-group">
-                            <button type="submit" class="form-control-submit-button">SUBMIT MESSAGE</button>
+                        
+                            {{ form.submit(class='form-control-submit-button')}}
+
                         </div>
+                        
                         <div class="form-message">
                             <div id="cmsgSubmit" class="h3 text-center hidden"></div>
                         </div>
